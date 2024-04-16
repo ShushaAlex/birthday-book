@@ -7,9 +7,10 @@ import java.time.ZonedDateTime;
 
 @Getter
 @AllArgsConstructor
-public class ValidationException {
+public class ValidationError {
 
     private final String message;
     private final HttpStatus httpStatus;
     private final ZonedDateTime timestamp;
+
 }

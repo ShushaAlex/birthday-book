@@ -1,46 +1,40 @@
 package org.example.birthdaybook.repository;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.birthdaybook.data.entity.Person;
-import org.example.birthdaybook.service.BirthdayBookService;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
-public class PersonRepository implements BirthdayBookService {
+public class PersonRepository {
 
-    private final Map<Person, LocalDate> personLocalDateMap = new HashMap<>();
+    private final Set<Person> personSet = new HashSet<>();
 
-    @Override
-    public Person addPerson(Person person, LocalDate localDate) {
-        personLocalDateMap.put(person, localDate);
+    public Person addPerson(Person person) {
+        personSet.add(person);
         return person;
     }
 
-    @Override
-    public  Map<Person, LocalDate> findAll() {
-        return Map.copyOf(personLocalDateMap);
+    public  Set<Person> findAll() {
+        return Set.copyOf(personSet);
     }
 
-    @Override
-    public  Map<Person, LocalDate> findByDate(LocalDate date) {
-        return personLocalDateMap.entrySet()
+    public  Set<Person> findByDate(LocalDate date) {
+        return personSet
                 .stream()
-                .filter(entry -> entry.getValue().equals(date))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                .filter(p -> p.getDateOfBirth().equals(date))
+                .collect(Collectors.toSet());
     }
 
-    @Override
-    public  Map<Person, LocalDate> findByNameAndSurname(String name, String surname) {
-        return personLocalDateMap.entrySet()
+    public  Set<Person> findByNameAndSurname(String name, String surname) {
+        return personSet
                 .stream()
-                .filter(entry -> entry.getKey().getName().equals(name) && entry.getKey().getSurname().equals(surname))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                .filter(p -> p.getName().equals(name) && p.getSurname().equals(surname))
+                .collect(Collectors.toSet());
     }
 }

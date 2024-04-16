@@ -1,5 +1,7 @@
 package org.example.birthdaybook.data.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,11 +18,13 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class Person {
 
+    @NotBlank(message = "Name should not be blank ore empty")
     private String name;
 
+    @NotBlank(message = "Surname should not be blank ore empty")
     private String surname;
 
-    @PastOrPresent
+    @PastOrPresent @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
     private LocalDate dateOfBirth;
 
 }
